@@ -7,6 +7,12 @@
       ]
     },
     {
+      "name": "03",
+      "extensions": [
+        "UNARY"
+      ]
+    },
+    {
       "info": "implicit conversion",
       "stdout": " 1.5",
       "code": "scope \n print 3/2.0;\n end scope"
@@ -21,7 +27,10 @@
     },
     {
       "name": "17",
-      "stdout": " 42"
+      "stdout": " 42",
+      "extensions": [
+        "FUNEXP"
+      ]
     },
     {
       "name": "18",
@@ -34,12 +43,54 @@
     {
       "info": "Print boolean expr",
       "stdout": "true",
-      "code": "scope \n print 5 > 2.3;\n end scope"
+      "code": "scope \n print 5 > 2.3;\n end scope",
+      "extensions": [
+        "BOOLOP"
+      ]
     },
     {
       "info": "Print boolean expr 2",
       "stdout": "false",
-      "code": "scope \n print 2 > 2.3;\n end scope"
+      "code": "scope \n print 2 > 2.3;\n end scope",
+      "extensions": [
+        "BOOLOP"
+      ]
+    },
+    {
+      "info": "= != =",
+      "stdout": "true",
+      "code": "scope \n dim a as boolean \n a = 1 = 1 \n print a; \n end scope",
+      "extensions": [
+        "BOOLOP"
+      ]
+    },
+    {
+      "name": "24",
+      "timeout": 1
+    },
+    {
+      "name": "25",
+      "timeout": 1
+    },
+    {
+      "name": "27",
+      "stdout": " 25000"
+    },
+    {
+      "name": "28",
+      "stdout": " 3333333"
+    },
+    {
+      "name": "30",
+      "stdout": " 3"
+    },
+    {
+      "name": "41",
+      "stdout": " 2147483647"
+    },
+    {
+      "name": "42",
+      "stdout": " 1.79769e+308"
     }
   ]
 }

@@ -1,0 +1,54 @@
+{
+  "tests": [
+    {
+      "name": "01",
+      "extensions": [
+        "BOOLOP"
+      ]
+    },
+    {
+      "name": "02",
+      "extensions": [
+        "BOOLOP"
+      ]
+    },
+    {
+      "name": "08",
+      "extensions": [
+        "BOOLOP"
+      ]
+    },
+    {
+      "name": "10",
+      "extensions": [
+        "SCOPE"
+      ]
+    },
+    {
+      "name": "11",
+      "stdout": "?  3.2?  7.12?  17.44?  16.4?  17.28?  11.24?  1.8",
+      "extensions": [
+        "GLOBAL",
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "13",
+      "stdout": " 1405",
+      "extensions": [
+        "UNARY",
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "14",
+      "stdin": "whatareversedstring",
+      "stdout": "? gnirtsdesreveratahw"
+    },
+    {
+      "name": "15",
+      "stdin": "12.25\n0.125",
+      "stdout": "?  2.24298\n? -2.06119\n"
+    }
+  ]
+}

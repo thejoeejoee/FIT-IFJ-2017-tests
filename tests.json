@@ -1,0 +1,1661 @@
+{
+  "tests": [
+    {
+      "name": "02",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "04",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "06",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "07",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "08",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "09",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "10",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "11",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "12",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "18",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "23",
+      "compiler_exit_code": 1
+    },
+    {
+      "name": "13",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "wrong double format I",
+      "code": "33455457.e---",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong double format II",
+      "code": "33455457e",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong double format III",
+      "code": ".25",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong double format IV",
+      "code": ".e74",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong double format V",
+      "code": "scope\n dim a as integer = 12.21.74\n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "unterminated string",
+      "code": "!\"",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong string escape sequence I",
+      "code": "!\"\\-1\"",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong string escape sequence II",
+      "code": "!\"\\1\"",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong string escape sequence III",
+      "code": "!\"\\256\"",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "wrong string escape sequence IV",
+      "code": "!\"\\m\"",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "scope without end",
+      "code": "scope",
+      "compiler_exit_code": 2
+    },
+    {
+      "info": "empty program",
+      "code": "",
+      "compiler_exit_code": 2,
+      "allow_empty": true
+    },
+    {
+      "info": "missing end scope",
+      "code": "scope \n end",
+      "compiler_exit_code": 2
+    },
+    {
+      "info": "missing end",
+      "code": "scope \n scope",
+      "compiler_exit_code": 2
+    },
+    {
+      "info": "empty expression in condition",
+      "code": "scope \n if then \n end if \n end scope",
+      "compiler_exit_code": 2
+    },
+    {
+      "info": "wrong if termination",
+      "code": "scope \n if 1 < 2 then \n end uf end scope",
+      "compiler_exit_code": 2
+    },
+    {
+      "info": "wrong if termination",
+      "code": "scope \n if 1 < 2 then \n wend if end scope",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "undefined variable",
+      "code": "scope \n input a \n end scope",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "undefined variable in expression",
+      "code": "scope \n print a*2; \n end scope",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "variable redeclaration",
+      "code": "scope \n dim a as integer \n dim a as integer \n end scope",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "undeclared function call",
+      "code": "scope \n dim a as integer = foo()\n end scope",
+      "compiler_exit_code": 3,
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "info": "assignment or undefined variable",
+      "code": "scope \n dim a as integer \n a = 10 + variable \n end scope",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "assignment or undefined variable in variable declaration",
+      "code": "scope \n dim a as integer = b + 1 \n end scope",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "condition type error with string value",
+      "code": "scope \n if !\"\" then \n end if \n end scope",
+      "compiler_exit_code": 4
+    },
+    {
+      "info": "condition type error with integer value",
+      "code": "scope \n if 42 then \n end if \n end scope",
+      "compiler_exit_code": 4
+    },
+    {
+      "info": "condition type error with double value",
+      "code": "scope \n if 6789678.6968 then \n end if \n end scope",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "14",
+      "compiler_exit_code": 1
+    },
+    {
+      "name": "15",
+      "compiler_exit_code": 1
+    },
+    {
+      "name": "16",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "wrong operand types",
+      "compiler_exit_code": 4,
+      "code": "scope \n print !\"foo\" + 6;\n end scope"
+    },
+    {
+      "info": "wrong operand for two strings",
+      "compiler_exit_code": 4,
+      "code": "scope \n print !\"foo\" * !\"foo\";\n end scope"
+    },
+    {
+      "info": "invalid operators order",
+      "compiler_exit_code": 2,
+      "code": "scope \n print 2 + * 8;\n end scope"
+    },
+    {
+      "info": "missing operand in expression I",
+      "compiler_exit_code": 2,
+      "code": "scope \n print * 2;\n end scope"
+    },
+    {
+      "info": "missing operand in expression II",
+      "compiler_exit_code": 2,
+      "code": "scope \n print 2 - 9 +;\n end scope"
+    },
+    {
+      "info": "unterminated braces group",
+      "compiler_exit_code": 2,
+      "code": "scope \n print ((2 + 3);\n end scope"
+    },
+    {
+      "info": "missing operator",
+      "compiler_exit_code": 2,
+      "code": "scope \n print (5 + 9)(2 + 3);\n end scope"
+    },
+    {
+      "info": "missing content of braces group",
+      "compiler_exit_code": 2,
+      "code": "scope \n print () + (5 + 9);\n end scope"
+    },
+    {
+      "info": "missing operand in braces group",
+      "compiler_exit_code": 2,
+      "code": "scope \n print (* 6) + (5 + 9);\n end scope"
+    },
+    {
+      "info": "keyword in expression",
+      "compiler_exit_code": 2,
+      "code": "scope \n print (print + 9);\n end scope"
+    },
+    {
+      "info": "Expected scope",
+      "compiler_exit_code": 2,
+      "code": "dim a as integer \n end scope"
+    },
+    {
+      "info": "Missing return data type I",
+      "compiler_exit_code": 2,
+      "code": "function foo() \n end function \n scope \n end scope"
+    },
+    {
+      "info": "Missing return data type II",
+      "compiler_exit_code": 2,
+      "code": "function foo() as \n end function \n scope \n end scope"
+    },
+    {
+      "info": "No then after if",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim a as integer \n if a > 10 \n end if \n end scope \n"
+    },
+    {
+      "info": "Exprected dim",
+      "compiler_exit_code": 3,
+      "code": "scope \n a as integer \n end scope"
+    },
+    {
+      "info": "False brackets in expression",
+      "compiler_exit_code": 2,
+      "code": "function foo() as itneger\n end function \n scope \n dim a as integer = foo( \n end scope"
+    },
+    {
+      "info": "False brackets in expression",
+      "compiler_exit_code": 2,
+      "code": "function foo() as itneger\n end function \n scope \n dim a as integer = foo)( \n end scope"
+    },
+    {
+      "info": "False print",
+      "compiler_exit_code": 3,
+      "code": "scope \n print42; \n end scope"
+    },
+    {
+      "info": "False if",
+      "compiler_exit_code": 3,
+      "code": "scope \n dim a as integer \n ifa<10 then \n else \n end if\n \n end scope"
+    },
+    {
+      "info": "assignment without expr",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim a as integer \n a = \n end scope"
+    },
+    {
+      "info": "assignment without expr 2",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim a as integer = \n end scope"
+    },
+    {
+      "info": "do while without expression",
+      "compiler_exit_code": 2,
+      "code": "scope \n do while \n loop \n end scope"
+    },
+    {
+      "info": "return expression",
+      "compiler_exit_code": 2,
+      "code": "function foo() as integer \n return \n end function \n scope  \n loop \n end scope"
+    },
+    {
+      "info": "function arguments without comma",
+      "compiler_exit_code": 2,
+      "code": "function foo(a as integer b as integer) as integer \n end function \n scope  \n loop \n end scope"
+    },
+    {
+      "info": "function arguments without type",
+      "compiler_exit_code": 2,
+      "code": "function foo(a, b as integer) as integer \n end function \n scope  \n loop \n end scope"
+    },
+    {
+      "info": "Input with invalid identifier",
+      "compiler_exit_code": 3,
+      "code": "scope \n dim a as integer \n input ab \n end scope"
+    },
+    {
+      "info": "Undefined variable assignment",
+      "compiler_exit_code": 3,
+      "code": "scope \n a = 31 \n end scope"
+    },
+    {
+      "info": "Undefined variable assignment in function",
+      "compiler_exit_code": 3,
+      "code": "function foo() as integer \n  dim a as integer\n ab = 10 \n end function \n scope \n end scope"
+    },
+    {
+      "info": "Undefined variable assignment in function",
+      "compiler_exit_code": 3,
+      "code": "function foo() as integer \n  dim a as integer\n ab = 10 \n end function \n scope \n end scope"
+    },
+    {
+      "info": "Undefined variable in if",
+      "compiler_exit_code": 3,
+      "code": "scope \n if a < 10 then \n else \n end if \n end scope"
+    },
+    {
+      "info": "Undefined variable in while",
+      "compiler_exit_code": 3,
+      "code": "scope \n do while a < 10 then \n loop \n end scope"
+    },
+    {
+      "info": "Undefined variable in calling function",
+      "compiler_exit_code": 3,
+      "code": "function foo(a as integer) as integer \n end function \n scope \n dim a as integer \n a = foo(b) \n end scope"
+    },
+    {
+      "info": "No eol after statement",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim a as integer dim b as integer\n input ab \n end scope"
+    },
+    {
+      "info": "Print without semicolon",
+      "compiler_exit_code": 2,
+      "code": "scope \n print 42; 42 \n end scope"
+    },
+    {
+      "info": "Empty file",
+      "name": "17",
+      "compiler_exit_code": 2,
+      "allow_empty": true
+    },
+    {
+      "info": "Function after scope",
+      "compiler_exit_code": 2,
+      "code": "scope  \n end scope \n function foo() as integer \n end function"
+    },
+    {
+      "info": "Declaration after scope",
+      "compiler_exit_code": 2,
+      "code": "scope  \n end scope \n declare function foo() as integer"
+    },
+    {
+      "info": "function in function",
+      "compiler_exit_code": 2,
+      "code": "function foo() as integer \n function bar() as integer \n end function \n end function \n scope \n end scope \n"
+    },
+    {
+      "info": "declaration in function",
+      "compiler_exit_code": 2,
+      "code": "function foo() as integer \n declare function bar() as integer \n end function \n scope \n end scope \n"
+    },
+    {
+      "info": "Function in scope",
+      "compiler_exit_code": 2,
+      "code": " scope \n function foo() as integer \n end function \n end scope \n"
+    },
+    {
+      "info": "Declaration in scope",
+      "compiler_exit_code": 2,
+      "code": " scope \n declare function foo() as integer \n  end scope \n"
+    },
+    {
+      "info": "Declaration in function in scope",
+      "compiler_exit_code": 2,
+      "code": " scope \n function foo() as integer \n declare function foo() as integer \n end function \n end scope \n"
+    },
+    {
+      "info": "No end scope",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim a as integer \n print a;"
+    },
+    {
+      "info": "No end function",
+      "compiler_exit_code": 2,
+      "code": "function foo() as integer \n scope \n end scope"
+    },
+    {
+      "info": "Print without semicolon",
+      "compiler_exit_code": 2,
+      "code": "scope \n  print 10 \n end scope"
+    },
+    {
+      "info": "Print without semicolon 2",
+      "compiler_exit_code": 2,
+      "code": "scope \n  print 10; 10\n end scope"
+    },
+    {
+      "info": "Print without semicolon 2",
+      "compiler_exit_code": 2,
+      "code": "scope \n  print 10 10;\n end scope"
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "scope \n  dim a as integer = &\n end scope"
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3."
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3.e"
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3e."
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3e-"
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3e+"
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3e+"
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3.e+"
+    },
+    {
+      "info": "Lexical error in assignment",
+      "compiler_exit_code": 1,
+      "code": "3.e-"
+    },
+    {
+      "info": "Lexical error in print",
+      "compiler_exit_code": 1,
+      "code": "scope \n print &;\n end scope"
+    },
+    {
+      "name": "19",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "20",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "21",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "22",
+      "compiler_exit_code": 3,
+      "extensions": [
+        "SCOPE"
+      ]
+    },
+    {
+      "info": "Error in type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim a as boolean \n a = a + true \n end scope",
+      "extensions": [
+        "BOOLOP"
+      ]
+    },
+    {
+      "info": "Error in type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim a as string \n a = a + !\"ahoj\" + 5 \n end scope"
+    },
+    {
+      "info": "Error in type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim a as string \n a = a + 42 \n end scope"
+    },
+    {
+      "info": "Error in type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim a as boolean \n a = a + 42 \n end scope",
+      "extensions": [
+        "BOOLOP"
+      ]
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n { \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n # \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n { \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print &; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\0\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\02\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\000\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\256\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\-1\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\" \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 14ee; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 14ee2; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 14e*2; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print ♥; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 𝓑; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 𝖄; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 2.e6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 2.8e-; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 2.8e--6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 2.8e+-6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 2.8e++6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 2.8e*6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print .8e+6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print .e2; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 7.e+6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 7.e6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 7.0ee6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 7.0e 6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 7. e6; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print \"foo\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\;\n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\1\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\p\"; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\\\";\n end scope"
+    },
+    {
+      "info": "syntax error",
+      "compiler_exit_code": 2,
+      "code": "scope \n print 2/''/5; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print [; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print ]; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print $; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print ^; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print ?; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print ~; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print #abcd; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !abcd; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print ^abcd; \n end scope"
+    },
+    {
+      "info": "lexical error for Sony",
+      "compiler_exit_code": 1,
+      "code": "scope \n print #abcd; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print \"abcd; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print |; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print |abcd; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print $abcd; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print čab; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print %; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print %a; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print [a; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print ]a; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print {a; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print }a; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print `; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print `a; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope# \n print 42; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 0.; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 0.-0; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 0#; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !0; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print \u0007; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print @hell; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print .hell; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print :hell; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print :; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print \u007F; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print \u0000; \n end scope"
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0000; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0001; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0002; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0003; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0004; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0005; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0006; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0007; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0008; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u000e; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u000f; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0010; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0011; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0012; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0013; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0014; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0015; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0016; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0017; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0018; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u0019; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u001a; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u001b; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u001c; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u001d; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print \u001e; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n dim a as double = 31.e21 \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"ahoj\\31\"; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"ahoj\\3\"; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"ahoj\\\"; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"ahoj\\256\"; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n PRINT !\"\\\"; \n end scope",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"\\",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"\\1",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"\\12",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"\\123",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "lexical error",
+      "code": "scope \n print !\"\\t",
+      "compiler_exit_code": 1
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim as as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim asc as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim declare as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim dim as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim do as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim double as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim else as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim end as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim chr as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim function as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim if as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim input as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim integer as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim length as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim loop as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim print as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim return as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim scope as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim string as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim substr as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim then as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim while as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim and as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim boolean as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim continue as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim elseif as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim exit as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim false as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim for as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim next as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim not as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim or as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim shared as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim static as integer\n end scope"
+    },
+    {
+      "info": "Keyword instead identifier",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim true as integer\n end scope"
+    },
+    {
+      "info": "Fail keyword",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim __a7@ as integer\n end scope"
+    },
+    {
+      "info": "Fail keyword",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim __a7as integer\n end scope"
+    },
+    {
+      "info": "Fail integer",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim __a7as as integer = 31&\n end scope"
+    },
+    {
+      "info": "Fail double",
+      "compiler_exit_code": 3,
+      "code": "scope \n dim __a7as as integer = 31f.412\n end scope"
+    },
+    {
+      "info": "Fail double",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim __a7as as integer = 31.f412\n end scope"
+    },
+    {
+      "info": "Fail double",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim __a7as as string = !\"\\256\"\n end scope"
+    },
+    {
+      "info": "Fail double",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim __a7as as string = !\"\\6\"\n end scope"
+    },
+    {
+      "info": "Fail string",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim __a7as as string = !\"\\24\"\n end scope"
+    },
+    {
+      "info": "Fail string",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim __a7as as string = !\"\\b\"\n end scope"
+    },
+    {
+      "info": "Fail syntax of dim",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim __a7as as douuble\n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim __a7as as integer  = !\"\"\n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim __a7as as double  = !\"\"\n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim __a7as as string  = 31\n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim __a7as as string  = 31.5\n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n if 31 then \n else \n end if \n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n if !\"\" then \n else \n end if \n end scope"
+    },
+    {
+      "info": "Empty expr in if",
+      "compiler_exit_code": 2,
+      "code": "scope \n if  then \n else \n end if \n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n do while !\"\" \n loop \n end scope"
+    },
+    {
+      "info": "Empty expr in while",
+      "compiler_exit_code": 2,
+      "code": "scope \n do while  \n loop \n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n do while 31 \n loop \n end scope"
+    },
+    {
+      "info": "Fail type compatibility",
+      "compiler_exit_code": 4,
+      "code": "scope \n do while 31.6 \n loop \n end scope"
+    },
+    {
+      "info": "Empty print",
+      "compiler_exit_code": 2,
+      "code": "scope \n print ; \n end scope"
+    },
+    {
+      "info": "Redefine build-in function",
+      "compiler_exit_code": 2,
+      "code": "declare function length() as integer\n function length() as integer \n end function\nscope\nend scope"
+    },
+    {
+      "info": "Redefine build-in function",
+      "compiler_exit_code": 2,
+      "code": "declare function SUBSTR() as integer\n function SUBSTR() as integer \n end function\nscope\nend scope"
+    },
+    {
+      "info": "Redefine build-in function",
+      "compiler_exit_code": 2,
+      "code": "declare function AsC() as integer\n function AsC() as integer \n end function\nscope\nend scope"
+    },
+    {
+      "info": "Redefine build-in function",
+      "compiler_exit_code": 2,
+      "code": "declare function CHr() as integer\n function CHr() as integer \n end function\nscope\nend scope"
+    },
+    {
+      "info": "Function with keyword",
+      "compiler_exit_code": 2,
+      "code": "declare function scope() as integer\n function scope() as integer \n end function\nscope\nend scope"
+    },
+    {
+      "info": "Redefine shared variable",
+      "compiler_exit_code": 3,
+      "code": "dim shared a as integer \n dim shared a as string \n scope \n end scope",
+      "extensions": [
+        "GLOBAL"
+      ]
+    },
+    {
+      "info": "Redefine static variable",
+      "compiler_exit_code": 3,
+      "code": "function foo() as integer \n static a as integer \n print a; \n static a as integer \n end function \n scope \n end scope",
+      "extensions": [
+        "GLOBAL"
+      ]
+    },
+    {
+      "info": "Undefined variable",
+      "compiler_exit_code": 3,
+      "code": "scope \n print 42 + a + 42\n end scope"
+    },
+    {
+      "info": "Undefined function FUNEXP",
+      "compiler_exit_code": 3,
+      "code": "scope \n print 42 + a() + 42\n end scope",
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"ahoj \n\" \n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim a as double = 31. 31\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim a as double = 31 .31\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim a as double = 31.31e*3\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim a as double = 31.31e*3\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n dim a as double = .0\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 41e;\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 41e-;\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 41e--;\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 41e-+;\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 41ef;\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print 41e 81;\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print &a1; \n end scope",
+      "extensions": [
+        "BASE"
+      ]
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\t\";\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\u0011\";\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\u0001\";\n end scope"
+    },
+    {
+      "info": "Lexical error",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"\u0010\";\n end scope"
+    },
+    {
+      "info": "Return in scope in scope",
+      "compiler_exit_code": 2,
+      "code": "scope \n \n scope \n return 10 \n end scope\n end scope",
+      "extensions": [
+        "SCOPE"
+      ]
+    },
+    {
+      "info": "Return in scope",
+      "compiler_exit_code": 2,
+      "code": "scope \n return 10 \n end scope"
+    },
+    {
+      "info": "invalid types to compare",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim a as integer = 10 \n if 1 < a < 20 then \n else \n end if \n end scope"
+    },
+    {
+      "info": "(a > b) > 1",
+      "compiler_exit_code": 4,
+      "code": "scope \n dim a as integer \n dim b as integer \n if (a > b) > 1 then \n else \n end if \n end scope"
+    },
+    {
+      "info": "a > b > 1",
+      "compiler_exit_code": 2,
+      "code": "scope \n dim a as integer \n dim b as integer \n if a > b > 1 then \n else \n end if \n end scope"
+    },
+    {
+      "info": "Return in scope in condition",
+      "compiler_exit_code": 2,
+      "code": "scope \n if 10 = 10 then \n return 10 \n else \n end if \n end scope"
+    },
+    {
+      "info": "Return in scope in loop",
+      "compiler_exit_code": 2,
+      "code": "scope \n do while 10 = 10 \n return 10 \n loop \n end scope"
+    },
+    {
+      "info": "Return in scope in scoped loop",
+      "compiler_exit_code": 2,
+      "code": "scope \n do while 10 = 10 \n scope \n return 10 \n end scope \n loop \n end scope"
+    },
+    {
+      "info": "Forum test 1",
+      "compiler_exit_code": 1,
+      "code": "scope \n print !\"ahoj\\800\"; \n end scope"
+    },
+    {
+      "info": "Forum test 2",
+      "compiler_exit_code": 3,
+      "code": "scope \n di@m a as integer \n end scope"
+    },
+    {
+      "name": "24",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "25",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "26",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "27",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "28",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "29",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "30",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "31",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "32",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "33",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "34",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "35",
+      "compiler_exit_code": 3,
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "36",
+      "compiler_exit_code": 3
+    },
+    {
+      "name": "37",
+      "compiler_exit_code": 3,
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "38",
+      "compiler_exit_code": 4,
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "39",
+      "compiler_exit_code": 4,
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "40",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "41",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "42",
+      "compiler_exit_code": 4
+    },
+    {
+      "name": "43",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "Errors during interpretation",
+      "interpreter_exit_code": 57,
+      "code": "scope \n print 3/0; \n end scope"
+    },
+    {
+      "info": "Errors during interpretation",
+      "interpreter_exit_code": 57,
+      "code": "scope \n print 3\\0.2; \n end scope"
+    },
+    {
+      "info": "Errors during interpretation",
+      "interpreter_exit_code": 57,
+      "code": "scope \n print 3\\(0-0.2); \n end scope"
+    },
+    {
+      "info": "Errors during interpretation",
+      "stdout": " 15",
+      "code": "scope \n print 3/0.2; \n end scope"
+    }
+  ]
+}

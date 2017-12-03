@@ -1,0 +1,37 @@
+' function with covered static
+dim shared a as integer
+
+function foo(a as integer) as integer
+    static nova as integer 
+    dim ahoj as integer = 42
+    a = a + ahoj
+    nova = nova + ahoj
+    scope
+        dim ahoj as integer = 56
+        nova = nova + ahoj
+        a = a + ahoj
+        nova = nova + a
+    end scope
+    nova = nova + a
+    
+    return nova
+
+end function
+
+scope
+    
+    dim b as integer
+    b = foo(41)
+    b = foo(45)
+    scope
+        dim b as integer
+        b = 20
+        a = a + b
+    end scope
+    
+    b = b + a
+    
+    print b;
+
+
+end scope

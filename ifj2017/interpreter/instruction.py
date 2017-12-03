@@ -140,25 +140,28 @@ class Instruction(object):
         'READ': State.read,
         'TYPE': lambda state, op0, op1: state.set_value(
             op0,
-            Operand.CONSTANT_MAPPING_REVERSE.get(type(state.get_value(op1))) if state.get_value(op1) is not None else ''
+            type(state.get_value(op1)).__name__
+            if state.get_value(op1) is not None else ''
         ),
 
         'BREAK': lambda state: state.stderr.write('{}\n'.format(state)),
         'DPRINT': lambda state, op0: state.stderr.write('{}\n'.format(state.get_value(op0))),
+        'GROOT': lambda state: state.stderr.write(
+            'Price: {} ({}+{}).\n'.format(
+                state.price, state.instruction_price, state.operand_price
+            )
+        ),
 
         'CONCAT': lambda state, target, op0, op1: state.set_value(target, ''.join((
             state.get_value(op0),
             state.get_value(op1),
         ))),
-        'STRLEN': lambda state, target, string: state.set_value(target, len(state.get_value(string))),
-        'GETCHAR': lambda state, target, string, index: state.set_value(
-            target,
-            state.get_value(string)[state.get_value(index)]
-        ),
+        'STRLEN': State.str_len,
+        'GETCHAR': State.get_char,
         'SETCHAR': State.set_char,
 
-        'INT2FLOAT': lambda state, op0, op1: state.set_value(op1, float(state.get_value(op1))),
-        'FLOAT2INT': lambda state, op0, op1: state.set_value(op1, int(state.get_value(op1))),
+        'INT2FLOAT': lambda state, op0, op1: state.set_value(op0, float(state.get_value(op1))),
+        'FLOAT2INT': lambda state, op0, op1: state.set_value(op0, int(state.get_value(op1))),
         'FLOAT2R2EINT': lambda state, op0, op1: state.set_value(
             op0,
             even_round(state.get_value(op1))
@@ -185,7 +188,7 @@ class Instruction(object):
         'STRI2INTS': State.string_to_int_stack,
     }
 
-    def run(self, state):
+    def run(self, state: State):
         logging.info('Processing {} on {}.'.format(self.name, self.line_index))
         command = self._commands.get(self.name, _unknown_command)
         price = InstructionPrices.INSTRUCTIONS.get(self.name)

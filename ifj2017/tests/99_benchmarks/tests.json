@@ -2,15 +2,33 @@
   "tests": [
     {
       "name": "01",
-      "timeout": 3
+      "timeout": 3,
+      "extensions": [
+        "IFTHEN",
+        "UNARY"
+      ]
     },
     {
       "name": "02",
-      "timeout": 4
+      "timeout": 4,
+      "extensions": [
+        "SCOPE",
+        "IFTHEN",
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "03",
+      "extensions": [
+        "FUNEXP"
+      ]
     },
     {
       "name": "11",
-      "timeout": 3
+      "timeout": 5,
+      "extensions": [
+        "UNARY"
+      ]
     },
     {
       "name": "12",
@@ -18,6 +36,28 @@
       "extensions": [
         "FUNEXP"
       ]
+    },
+    {
+      "name": "13",
+      "extensions": [
+        "FUNEXP",
+        "SCOPE"
+      ]
+    },
+    {
+      "name": "07",
+      "stdin": "abcdefg\nabcdefgh"
+    },
+    {
+      "name": "14",
+      "extensions": [
+        "SCOPE"
+      ],
+      "timeout": 10
+    },
+    {
+      "name": "15",
+      "timeout": 10
     }
   ]
 }

@@ -10,6 +10,7 @@ from os.path import basename, abspath, isfile, dirname
 from subprocess import PIPE, Popen, TimeoutExpired
 from tempfile import mktemp
 
+import ifj2017
 from .base import TestInfo
 from .base import TestReport
 from .loader import TestLoader
@@ -40,6 +41,7 @@ TEST_LOG_HEADER = """\
 # EXPECTED INTERPRETER EXIT CODE: {}
 # CURRENT INTERPRETER EXIT CODE: {}
 # PRICE: {}
+# GROOT: {}
 # 
 """
 
@@ -70,7 +72,7 @@ class TestRunner(object):
         super(TestRunner, self).__init__()
         assert path.isfile(args.compiler) and os.access(args.compiler, os.X_OK), \
             "Given compiler ({}) is file and is executable.".format(args.compiler)
-        assert path.isfile(args.interpreter) and os.access(args.interpreter, os.X_OK), \
+        assert args.no_interpreter or (path.isfile(args.interpreter) and os.access(args.interpreter, os.X_OK)), \
             "Given interpreter ({}) is file and is executable.".format(args.interpreter)
         assert isinstance(args.command_timeout, float) and args.command_timeout > 0, \
             'Command timeout is positive int'
@@ -79,9 +81,11 @@ class TestRunner(object):
         self._interpreter_binary = args.interpreter
         self._command_timeout = args.command_timeout
         self._log_dir = args.log_dir
+        self._no_interpreter = args.no_interpreter
         self._loader = TestLoader(
             args.tests_dir,
-            args.command_timeout
+            args.command_timeout,
+            args.tests
         )
         self._extensions_auto_loaded_from = False
         self._extensions = self._try_load_extensions(args.extensions_file, args.compiler)
@@ -122,14 +126,8 @@ class TestRunner(object):
             TestLogger.log_warning('Unable to authenticate user ({}), terminating...'.format(e))
             return 1
 
-        for test_section_dir in self._loader.load_section_dirs():
-            self._actual_section = path.basename(test_section_dir)
-
-            TestLogger.log_section(self._actual_section)
-            os.mkdir(path.join(self._log_dir, self._actual_section))
-            for test_info in self._loader.load_tests(test_section_dir):
-                self._run_test(test_info)
-
+        self._run_tests()
+        result = TestLogger.log_results(self._reports)
         if self._uploader.has_connection:
             try:
                 response = self._uploader.send_reports()
@@ -141,12 +139,25 @@ class TestRunner(object):
                 TestLogger.log_warning('Unable to send reports ({}), terminating...'.format(e))
         else:
             TestLogger.log_warning('Results upload skipped.')
+        if self._uploader.version != ifj2017.version:
+            TestLogger.log_warning(
+                'Outdated package version, actual version on PyPI is {}.'.format(self._uploader.version)
+            )
+        return result
 
-        return TestLogger.log_results(self._reports)
+    def _run_tests(self):
+        for test_section_dir in self._loader.load_section_dirs():
+            self._actual_section = path.basename(test_section_dir)
+
+            TestLogger.log_section(self._actual_section)
+            os.mkdir(path.join(self._log_dir, self._actual_section))
+            for test_info in self._loader.load_tests(test_section_dir):
+                self._run_test(test_info)
 
     def _run_test(self, test_info):
         report = TestReport()
         report.test_info = test_info
+        report.skipped = None
         TestLogger.log_test(
             test_info.name,
             ' ({})'.format(
@@ -158,6 +169,7 @@ class TestRunner(object):
                 ', '.join(test_info.extensions - self._extensions)
             ), end=False)
             report.success = None
+            report.skipped = True
             self._save_report(test_info, report)
             return
 
@@ -184,16 +196,14 @@ class TestRunner(object):
                 return
 
         TestLogger.log_test_ok()
-        if report.compiler_exit_code != 0:
+        if report.compiler_exit_code != 0 or self._no_interpreter:
             # compiler stops this test case
             report.success = True
             self._save_report(test_info, report)
             return
 
         try:
-            report.interpreter_stdout, report.interpreter_stderr, report.interpreter_exit_code = self._interpret(
-                report.compiler_stdout, test_info
-            )
+            self._interpret(report, test_info)
         except (TimeoutExpired, TimeoutError) as e:
             TestLogger.log_test_fail('INTERPRETER TIMEOUT')
             report.success = False
@@ -236,7 +246,7 @@ class TestRunner(object):
         except Exception as e:
             TestLogger.log(TestLogger.WARNING, ' (fail: {})'.format(e))
         else:
-            TestLogger.log_price(state=state)
+            TestLogger.log_price(state=state, groot_price=report.groot_price)
             self._uploader.collect_report(report)
         report.success = True
         self._save_report(test_info, report)
@@ -249,28 +259,42 @@ class TestRunner(object):
         except (TimeoutError, TimeoutExpired):
             process.kill()
             raise
-        return out.decode('ascii'), err.decode('ascii'), process.returncode
+        return out.decode('raw_unicode_escape'), err.decode('raw_unicode_escape'), process.returncode
 
-    def _interpret(self, code, test_info):
+    def _interpret(self, report: TestReport, test_info: TestInfo) -> None:
         code_temp = mktemp()
+        # add GROOT at the end to compute price
         with open(code_temp, 'wb') as f:
-            f.write(bytes(code, encoding='utf-8'))
+            f.write(bytes('\n'.join((report.compiler_stdout, 'GROOT')), encoding='utf-8'))
 
         process = Popen([self._interpreter_binary, '-v', code_temp], stdout=PIPE, stdin=PIPE, stderr=PIPE)
         try:
-            out, err = process.communicate(input=bytes(test_info.stdin, encoding='utf-8'),
-                                           timeout=test_info.timeout)
+            out, err = process.communicate(
+                input=bytes(test_info.stdin, encoding='utf-8'),
+                timeout=test_info.timeout
+            )
         except (TimeoutError, TimeoutExpired):
             process.kill()
             raise
         finally:
             os.remove(code_temp)
+        out, err, exit_code = out.decode('raw_unicode_escape'), err.decode('raw_unicode_escape'), process.returncode
+
+        try:
+            groot = err.splitlines()[-1]
+            report.groot_price = int(groot[groot.find('(') + 1:groot.find(')')])
+        except (IndexError, ValueError):
+            pass
+
         # err has non-escaped characters
-        return out.decode('ascii'), err.decode('unicode_escape'), process.returncode
+        report.interpreter_stdout, report.interpreter_stderr, report.interpreter_exit_code = out, err, exit_code
 
     def _interpret_price(self, code, test_info):
-        interpreter = Interpreter(code=code, state_kwargs=dict(stdin=StringIO(test_info.stdin)))
-        return interpreter.run()
+        interpreter = Interpreter(code=code, state_kwargs=dict(
+            stdin=StringIO(test_info.stdin),
+        ))
+        state = interpreter.run()
+        return state
 
     def _save_report(self, test_info, report):
         # type: (TestInfo, TestReport) -> None
@@ -303,10 +327,11 @@ class TestRunner(object):
                 test_info.interpreter_exit_code,
                 report.interpreter_exit_code,
                 '{} ({}+{})'.format(
-                    report.state.instruction_price + report.state.operand_price,
+                    report.state.price,
                     report.state.instruction_price,
                     report.state.operand_price
-                ) if report.state else '---'
+                ) if report.state else '---',
+                report.groot_price if report.groot_price is not None else '---'
             ))
             write(
                 '\n'.join(
@@ -322,8 +347,10 @@ class TestRunner(object):
                 in enumerate(lines, start=1)
                 if line
             ) or '# ---')
+            write('\n' * 2)
         self._reports.append(report)
         TestLogger._test_case_success = report.success
+        TestLogger._test_case_skipped = report.skipped
         TestLogger.log_end_test_case()
 
     @classmethod
@@ -340,19 +367,25 @@ class TestRunner(object):
         TestLogger.log(
             TestLogger.BLUE,
             TestLogger.BOLD,
-            "Welcome to automatic test runner for IFJ17 compiler "
-            "(https://github.com/thejoeejoee/VUT-FIT-IFJ-2017-tests)."
+            "Welcome to automatic test runner for IFJ17 compiler {} "
+            "(https://github.com/thejoeejoee/VUT-FIT-IFJ-2017-tests).".format(ifj2017.__version__)
         )
         if self._extensions:
             TestLogger.log(
                 TestLogger.GREEN,
                 TestLogger.BOLD,
-                "Activated {} extensions: {}{}.".format(
-                    len(self._extensions),
+                "Activated extensions: {}{}.".format(
                     ', '.join(sorted(self._extensions)),
-                    ' - autoloaded from {}'.format(self._extensions_auto_loaded_from)
+                    ' from {}'.format(self._extensions_auto_loaded_from)
                     if self._extensions_auto_loaded_from else ''
                 ),
+            )
+        if self._no_interpreter:
+            TestLogger.log(
+                TestLogger.WARNING,
+                TestLogger.UNDERLINE,
+                TestLogger.BOLD,
+                "WARNING: Running without interpreter - without STDOUT check."
             )
 
     def _try_load_extensions(self, extensions_file, compiler_path):

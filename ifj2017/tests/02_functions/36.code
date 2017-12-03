@@ -1,0 +1,14 @@
+' Static in function in scope 
+function foo() as integer
+	static a as integer
+    scope
+        a = 10
+    end scope
+    return a
+end function
+
+scope
+    dim a as integer
+    a = foo()
+    print a;
+end scope

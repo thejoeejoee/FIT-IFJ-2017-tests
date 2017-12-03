@@ -10,19 +10,17 @@
     },
     {
       "name": "07",
-      "compiler_exit_code": 4
+      "compiler_exit_code": 3
     },
     {
-      "name": "01",
       "info": "Asc value",
       "stdout": " 104",
-      "code": "scope \n print asc(!\"ahoj\", 2); \n end scope"
+      "code": "scope \n dim a as integer \n a = asc(!\"ahoj\", 2) \n print a; \n end scope"
     },
     {
-      "name": "02",
       "info": "Chr function",
       "stdout": "a",
-      "code": "scope \n print chr(97); \n end scope"
+      "code": "scope \n dim c as string \n c = chr(97) \n print c; \n end scope"
     },
     {
       "info": "function integer implicit return",
@@ -46,16 +44,23 @@
     {
       "name": "18",
       "stdout": " 16",
-      "extensions": ["FUNEXP"]
+      "extensions": [
+        "FUNEXP"
+      ]
     },
     {
       "name": "19",
       "stdout": " 256",
-      "extensions": ["FUNEXP"]
+      "extensions": [
+        "FUNEXP"
+      ]
     },
     {
       "name": "20",
-      "stdout": " 16"
+      "stdout": " 16",
+      "extensions": [
+        "FUNEXP"
+      ]
     },
     {
       "name": "21",
@@ -86,6 +91,82 @@
       "name": "27",
       "compiler_exit_code": 4,
       "stdout": " 0"
+    },
+    {
+      "name": "29",
+      "stdout": "blankblank 52dbl 52int 16strbarman 47837",
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "30",
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "name": "31",
+      "compiler_exit_code": 3
+    },
+    {
+      "info": "Length of string with escape sequences",
+      "stdout": " 3",
+      "code": "scope \n dim a as integer \n a = Length(!\"\\n\\t\\n\")\n print a; \n end scope "
+    },
+    {
+      "info": "Length of string with escape sequences",
+      "stdout": " 3",
+      "code": "scope \n dim a as integer \n a = Length(!\"\\069\\042\\054\")\n print a; \n end scope "
+    },
+    {
+      "info": "Length of string with escape from top of ascii table",
+      "stdout": " 3",
+      "code": "scope \n dim a as integer \n a = Length(!\"\\210\\190\\255\")\n print a; \n end scope "
+    },
+    {
+      "info": "Length of string with escape from top of ascii table",
+      "stdout": " 10",
+      "code": "scope \n dim a as integer \n a = Length(!\"b\\069\\0423\\054e\\210l\\190\\255\")\n print a; \n end scope "
+    },
+    {
+      "name": "35",
+      "stdout": " 780",
+      "extensions": [
+        "SCOPE",
+        "GLOBAL"
+      ]
+    },
+    {
+      "name": "36",
+      "stdout": " 10",
+      "extensions": [
+        "SCOPE",
+        "GLOBAL"
+      ]
+    },
+    {
+      "name": "37",
+      "stdout": " 30",
+      "extensions": [
+        "SCOPE",
+        "GLOBAL"
+      ]
+    },
+    {
+      "name": "38",
+      "stdout": " 216",
+      "extensions": [
+        "SCOPE"
+      ]
+    },
+    {
+      "name": "40",
+      "stdout": " 2.9 2.4 2.4oy 6 6 0 0 0 0"
+    },
+    {
+      "name": "41",
+      "stdout": " 4es 1011"
     }
   ]
 }

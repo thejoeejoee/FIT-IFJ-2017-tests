@@ -2,7 +2,7 @@
 scope
 
 dim a as boolean
-a = 1 = 1
+a = &b10101010 = 170
 print a;
 
 end scope

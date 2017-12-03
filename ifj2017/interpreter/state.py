@@ -1,9 +1,10 @@
 # coding=utf-8
-import codecs
 import logging
 import re
 from io import StringIO
+from typing import Optional, Union
 
+from ifj2017.interpreter.exceptions import UnknownDataTypeError, StringError
 from .exceptions import EmptyDataStackError, UndefinedVariableError, UndeclaredVariableError, \
     FrameError, UnknownLabelError, InvalidReturnError, InvalidOperandTypeError
 from .operand import Operand, TypeOperand
@@ -37,12 +38,12 @@ class State(object):
             raise FrameError('Access to non existing local frame.')
         return self.frame_stack[-1]
 
-    def frame(self, frame):
+    def frame(self, frame: str):
         return {
             'TF': lambda: self.temp_frame,
             'LF': lambda: self.local_frame,
             'GF': lambda: self.global_frame,
-        }.get(frame)()
+        }.get(frame.upper())()
 
     def create_frame(self):
         self.temp_frame = {}
@@ -60,8 +61,7 @@ class State(object):
         self.temp_frame = self.frame_stack[-1]
         self.frame_stack = self.frame_stack[:-1]
 
-    def get_value(self, value):
-        # type: (Operand) -> object
+    def get_value(self, value: Optional[Operand]) -> Union[None, int, str, float]:
         if value is None:
             # variable declaration
             return None
@@ -93,8 +93,7 @@ class State(object):
         frame[to.name] = self.get_value(what)
 
         # explicit variable access, only declaration
-        if what is None:
-            self.operand_price += InstructionPrices.OPERAND_VARIABLE
+        self.operand_price += InstructionPrices.OPERAND_VARIABLE
 
     def define_variable(self, variable):
         # type: (Operand) -> None
@@ -152,9 +151,21 @@ class State(object):
         changed[self.get_value(index)] = self.get_value(from_)[0]
         self.set_value(where, changed)
 
+    def get_char(self, target, string, index):
+        source = self.get_value(string)
+        try:
+            self.set_value(
+                target,
+                source[self.get_value(index)]
+            )
+        except IndexError:
+            raise StringError(source, self.get_value(index))
+
+    def str_len(self, target, string):
+        return self.set_value(target, len(self.get_value(string)))
+
     def read(self, to, type_):
         # type: (Operand, Operand) -> None
-        self.stdout.write('? ')
         loaded = []
         input_ = self.stdin.readline().strip()  # type: str
         input_len = len(input_)
@@ -178,12 +189,12 @@ class State(object):
                 self.set_value(to, int(''.join(loaded)))
             except ValueError:
                 self.set_value(to, 0)
-        elif type_.data_type == Operand.CONSTANT_MAPPING_REVERSE.get(float):
-            float_re = re.compile(r'^(\d+\.\d+)|(\d+[Ee][+-]?\d+)')
+        elif type_.data_type == Operand.CONSTANT_MAPPING_REVERSE.get(Operand.CONSTANT_MAPPING.get('float')):
+            float_re = re.compile(r'^(\d+\.\d+)|(\d+[Ee][+-]?\d+)|(\d+)')
             match = float_re.match(input_)
             assert match
             try:
-                self.set_value(to, float(match.group(0)))
+                self.set_value(to, Operand.CONSTANT_MAPPING.get('float')(match.group(0)))
             except ValueError:
                 self.set_value(to, .0)
         elif type_.data_type == Operand.CONSTANT_MAPPING_REVERSE.get(bool):
@@ -193,31 +204,22 @@ class State(object):
                 self.set_value(to, Operand.BOOL_LITERAL_MAPPING.get(match.group(0).lower()))
             else:
                 self.set_value(to, False)
+        else:
+            raise UnknownDataTypeError()
 
     ESCAPE_RE = re.compile(r'\\([0-9]{3})')
 
     def write(self, op):
         value = self.get_value(op)
         rendered = str(value)
-        if isinstance(value, (int, float)):
-            rendered = '% g' % (value,)
+        if isinstance(value, bool):
+            rendered = str(value).lower()
+        elif isinstance(value, int):
+            rendered = '{: d}'.format(value)
+        elif isinstance(value, float):
+            rendered = '{: g}'.format(value)
 
-        def __(m):
-            # magic for decimal \ddd to octal \ooo
-            return '\\{}'.format(
-                oct(
-                    int(
-                        m.group(1)
-                    )
-                ).lstrip('0o').zfill(3)
-            )
-
-        self.stdout.write(
-            codecs.decode(
-                self.ESCAPE_RE.sub(repl=__, string=rendered),
-                'unicode_escape'
-            )
-        )
+        self.stdout.write(rendered)
 
     def string_to_int_stack(self):
         index = self.pop_stack()
@@ -244,3 +246,7 @@ class State(object):
 
     def program_counter_to_label(self, pc):
         return {v: k for k, v in self.labels.items()}.get(pc) or ''
+
+    @property
+    def price(self):
+        return self.operand_price + self.instruction_price
