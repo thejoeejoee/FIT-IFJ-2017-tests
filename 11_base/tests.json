@@ -1,0 +1,77 @@
+{
+  "tests": [
+    {
+      "stdout": " 41",
+      "name": "01"
+    },
+    {
+      "stdout": " 5348",
+      "name": "02"
+    },
+    {
+      "stdout": " 1",
+      "name": "03"
+    },
+    {
+      "stdout": " 127393",
+      "name": "04"
+    },
+    {
+      "stdout": " 100",
+      "name": "05"
+    },
+    {
+      "stdout": " 80970",
+      "name": "06",
+      "extensions": [
+        "FUNEXP"
+      ]
+    },
+    {
+      "compiler_exit_code": 2,
+      "name": "07"
+    },
+    {
+      "compiler_exit_code": 2,
+      "name": "08"
+    },
+    {
+      "compiler_exit_code": 2,
+      "name": "09"
+    },
+    {
+      "compiler_exit_code": 2,
+      "name": "10" 
+    },
+    {
+      "stdout": "true",
+      "extensions": [
+        "BOOLOP"
+      ],
+      "name": "11" 
+    },
+    {
+      "info": "Empty binary number",
+      "code": "scope \n dim a as integer = &b\n print a;\n end scope ",
+      "stdout": " 0"
+    },
+    {
+      "info": "Empty octa number",
+      "code": "scope \n dim a as integer = &o\n print a;\n end scope ",
+      "stdout": " 0"
+    },
+    {
+      "info": "Empty hexa number",
+      "code": "scope \n dim a as integer = &h\n print a;\n end scope ",
+      "stdout": " 0"
+    },
+    {
+      "info": "Print empty binary number",
+      "code": "scope \n print &b;\n end scope ",
+      "stdout": " 0"
+    }
+  ],
+  "extensions": [
+    "BASE"
+  ]
+}
